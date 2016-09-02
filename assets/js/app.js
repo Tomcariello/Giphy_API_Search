@@ -3,35 +3,29 @@ var searchTerms = ["cat","dog","rabbit","fish","turtle","hawk","hamster","piglet
 
 var supplementarySearch = "";
 
-function loadPresetAnimals() {
+function loadAnimals() {
 	$( ".jumbotron" ).html("");
-	for (i=0; i < searchTerms.length; i++) {
-		drawButtons(searchTerms[i]);
-	}
+	drawButtons();
 	trackButtons();
 }
 
-// Process Form Submittal
-$('#submit').on('click', function() {
-	var animalToAdd = $("#addAnimal").val();
-	drawButtons(animalToAdd);
-	trackButtons();
-	return false;
-});
-
-
-function drawButtons(itemToPrint) {
-	var buttonToPrint = ("<a class='btn btn-primary btn-lg choice' data-value='" + itemToPrint + "'role='button'>" + itemToPrint + "</a>");
-	$( "#buttonContainer" ).append( buttonToPrint );
+function drawButtons() {
+	$( "#buttonContainer" ).html("");
+	
+	for (i=0; i < searchTerms.length; i++) {
+		buttonToPrint = $('<button>');
+		buttonToPrint.addClass('btn btn-primary btn-lg buttonChoice');
+		buttonToPrint.attr('data-value', searchTerms[i]);
+		buttonToPrint.text(searchTerms[i]);
+		$( "#buttonContainer" ).append( buttonToPrint );	
+	}	
 };
 
 function trackButtons() {
-	$('.choice').on('click', function(event) {
+	$('.buttonChoice').on('click', function(event) {
 		
 		var animalSelected = $(this).attr('data-value');
-		
 		$( ".jumbotron" ).html("");
-
 		var giphyUrl = "http://api.giphy.com/v1/gifs/search?q=" + animalSelected + "+" + supplementarySearch + "&api_key=dc6zaTOxFJmzC";
 		
 		$.ajax({
@@ -39,17 +33,33 @@ function trackButtons() {
 			 method: "GET"
 			})
 		.done(function(response){
-			console.log(response);
+			currentResult = response;
+			console.log(currentResult);
 			for (i=0; i < 10; i++) {
-				$( ".jumbotron" ).append("<img src='" + response.data[i].images.original_still.url + "'>");
-				
-				//The line below will print the animated gif
-				//$( ".jumbotron" ).append("<img src='" + response.data[i].images.original.url + "'>");
+				//load static image from API and load animated path into data-alt
+				$( ".jumbotron" ).append("<img class='giphyImages' data-alt='" + response.data[i].images.original.url + "' src='" + response.data[i].images.original_still.url + "''>");
 			}
 		});
 	return;
 	});
 }
 
+$(document).on('click', '.giphyImages', swapImageState);
+	
+function swapImageState() {
+	//swamp data-alt with src to swap animated with still
+	var activeImage = $(this).attr('src');
+	var altImage = $(this).attr('data-alt');
+	$(this).attr('data-alt', activeImage);
+	$(this).attr('src', altImage);
+}
 
-loadPresetAnimals();
+// Process Form Submittal
+$('#submit').on('click', function() {
+	var animalToAdd = $("#addAnimal").val();
+	searchTerms.push(animalToAdd);
+	loadAnimals();
+	return false;
+});
+
+loadAnimals();
