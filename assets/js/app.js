@@ -8,29 +8,27 @@ function loadPresetAnimals() {
 	for (i=0; i < searchTerms.length; i++) {
 		drawButtons(searchTerms[i]);
 	}
-	trackChoices();
+	trackButtons();
 }
 
-//Process Form Submittal
-// $('#addAnimal').click(function() {
-    
-// 	drawButtons(animalToAdd);
-// });
+// Process Form Submittal
+$('#submit').on('click', function() {
+	var animalToAdd = $("#addAnimal").val();
+	drawButtons(animalToAdd);
+	trackButtons();
+	return false;
+});
 
 
 function drawButtons(itemToPrint) {
 	var buttonToPrint = ("<a class='btn btn-primary btn-lg choice' data-value='" + itemToPrint + "'role='button'>" + itemToPrint + "</a>");
 	$( "#buttonContainer" ).append( buttonToPrint );
-	
 };
 
-function trackChoices() {
+function trackButtons() {
 	$('.choice').on('click', function(event) {
-		console.log('Something was clicked');
 		
 		var animalSelected = $(this).attr('data-value');
-		
-		console.log("It was " + animalSelected);
 		
 		$( ".jumbotron" ).html("");
 
@@ -41,14 +39,17 @@ function trackChoices() {
 			 method: "GET"
 			})
 		.done(function(response){
+			console.log(response);
 			for (i=0; i < 10; i++) {
-				$( ".jumbotron" ).append("<img src='" + response.data[i].images.original.url + "'>");
+				$( ".jumbotron" ).append("<img src='" + response.data[i].images.original_still.url + "'>");
+				
+				//The line below will print the animated gif
+				//$( ".jumbotron" ).append("<img src='" + response.data[i].images.original.url + "'>");
 			}
 		});
 	return;
-
-		
 	});
 }
+
 
 loadPresetAnimals();
