@@ -15,9 +15,14 @@ body {
     margin-bottom: 0px;
 }
 img {
-	height: 200px;
+	/*height: 200px;*/
+	width: 85%;
 	margin: 10px;
 }
 #addButtons {
 	margin-top: 30px;
+}
+.dynamic {
+	float: left;
+    width: 30%;
 }

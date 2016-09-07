@@ -37,7 +37,7 @@ function trackButtons() {
 			console.log(currentResult);
 			for (i=0; i < 10; i++) {
 				//load static image from API and load animated path into data-alt
-				$( ".jumbotron" ).append("<img class='giphyImages' data-alt='" + response.data[i].images.original.url + "' src='" + response.data[i].images.original_still.url + "''>");
+				$( ".jumbotron" ).append("<div class='dynamic'><img class='giphyImages' data-alt='" + response.data[i].images.original.url + "' src='" + response.data[i].images.original_still.url + "'><p>Rating: " + response.data[i].rating + "</p></div");
 			}
 		});
 	return;
