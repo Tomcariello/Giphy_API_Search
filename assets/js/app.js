@@ -1,5 +1,5 @@
 //create animal array
-var searchTerms = ["cat","dog","rabbit","fish","turtle","hawk","hamster","piglet"];
+var searchTerms = ["golf","baseball","basketball","football","hockey","soccer","boxing","ufc"];
 
 var supplementarySearch = "";
 
@@ -37,7 +37,25 @@ function trackButtons() {
 			console.log(currentResult);
 			for (i=0; i < 10; i++) {
 				//load static image from API and load animated path into data-alt
-				$( ".jumbotron" ).append("<div class='dynamic'><img class='giphyImages' data-alt='" + response.data[i].images.original.url + "' src='" + response.data[i].images.original_still.url + "'><p>Rating: " + response.data[i].rating + "</p></div");
+
+        //Just for you, Nate. Line 58 was working fine...
+        var divToPrint = $('<div>');
+        divToPrint.addClass('dynamic');
+
+        var imageToPrint = $('<img>');
+        imageToPrint.addClass('giphyImages');
+        imageToPrint.attr('data-alt', response.data[i].images.original.url);
+        imageToPrint.attr('src', response.data[i].images.original_still.url);
+        
+        var ratingToPrint = $('<p>');
+        ratingToPrint.append('Rating: ' + response.data[i].rating);
+
+        divToPrint.append(imageToPrint);
+        divToPrint.append(ratingToPrint);
+
+        $( ".jumbotron").append(divToPrint);
+
+				// $( ".jumbotron" ).append("<div class='dynamic'><img class='giphyImages' data-alt='" + response.data[i].images.original.url + "' src='" + response.data[i].images.original_still.url + "'><p>Rating: " + response.data[i].rating + "</p></div>");
 			}
 		});
 	return;

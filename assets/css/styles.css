@@ -6,6 +6,10 @@ body {
 	min-height: 100%;
 	width: 100%;
 }
+#buttonContainer {
+	border-bottom: 1px solid #cacaca;
+	padding: 10px;
+}
 .buttonChoice {
 	min-width: 150px;
 }
