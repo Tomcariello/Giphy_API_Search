@@ -30,3 +30,6 @@ img {
 	float: left;
     width: 30%;
 }
+.jumbotron {
+	height: 100vh;
+}
